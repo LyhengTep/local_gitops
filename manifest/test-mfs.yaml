@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: global-api-uat
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/LyhengTep/local_gitops.git
+    targetRevision: HEAD
+    path: deployments/overlays/sit
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    syncOptions:
+      - Validate=false
+    automated:
+      selfHeal: true
+      prune: true      
